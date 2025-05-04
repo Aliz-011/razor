@@ -1,0 +1,56 @@
+services:
+  api:
+    build:
+      context: .
+      target: server-runner
+    container_name: razor_api_service
+    ports:
+      - '3001:3000' #Expose the API on port 3001
+    env_file:
+      - ./apps/server/.env
+    environment:
+      PORT: 3000
+      DATABASE_URL: ${DATABASE_URL}
+      DB_HOST: ${DB_HOST}
+      DB_HOST2: ${DB_HOST2}
+      DB_USERNAME: ${DB_USERNAME}
+      DB_PASSWORD: ${DB_PASSWORD}
+      CORS_ORIGIN: ${CORS_ORIGIN}
+      BETTER_AUTH_SECRET: ${BETTER_AUTH_SECRET}
+      BETTER_AUTH_URL: ${BETTER_AUTH_URL}
+      NODE_ENV: production
+    restart: unless-stopped
+    networks:
+      - appnet
+
+  web:
+    build:
+      context: .
+      target: web-server
+    container_name: razor_web_service
+    ports:
+      - '8080:80'
+    env_file:
+      - ./apps/web/.env
+    environment:
+      VITE_SERVER_URL: ${VITE_SERVER_URL}
+    depends_on:
+      - api
+    restart: unless-stopped
+    networks:
+      - appnet
+
+  migrate:
+    build:
+      context: .
+      target: server-runner
+    container_name: migration_job
+    environment:
+      DATABASE_URL: ${DATABASE_URL}
+    command: ['bun', 'run', 'db:migrate', '--cwd', '/app/apps/server']
+    depends_on:
+      - api
+
+networks:
+  appnet:
+    driver: bridge
