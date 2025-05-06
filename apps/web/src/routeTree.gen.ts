@@ -27,6 +27,8 @@ import { Route as HonaiRevenueCvmIndexImport } from './routes/honai/revenue-cvm/
 import { Route as HonaiAccountIndexImport } from './routes/honai/account/index'
 import { Route as HonaiAccountPasswordImport } from './routes/honai/account/password'
 import { Route as HonaiAccountAppearanceImport } from './routes/honai/account/appearance'
+import { Route as HonaiFmcLineInServiceIndexImport } from './routes/honai/fmc/line-in-service/index'
+import { Route as HonaiFmcConnectWifiIndexImport } from './routes/honai/fmc/connect-wifi/index'
 
 // Create/Update Routes
 
@@ -126,6 +128,20 @@ const HonaiAccountAppearanceRoute = HonaiAccountAppearanceImport.update({
   id: '/appearance',
   path: '/appearance',
   getParentRoute: () => HonaiAccountRouteRoute,
+} as any)
+
+const HonaiFmcLineInServiceIndexRoute = HonaiFmcLineInServiceIndexImport.update(
+  {
+    id: '/fmc/line-in-service/',
+    path: '/fmc/line-in-service/',
+    getParentRoute: () => HonaiRoute,
+  } as any,
+)
+
+const HonaiFmcConnectWifiIndexRoute = HonaiFmcConnectWifiIndexImport.update({
+  id: '/fmc/connect-wifi/',
+  path: '/fmc/connect-wifi/',
+  getParentRoute: () => HonaiRoute,
 } as any)
 
 // Populate the FileRoutesByPath interface
@@ -244,6 +260,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof HonaiTrxNewSalesIndexImport
       parentRoute: typeof HonaiImport
     }
+    '/honai/fmc/connect-wifi/': {
+      id: '/honai/fmc/connect-wifi/'
+      path: '/fmc/connect-wifi'
+      fullPath: '/honai/fmc/connect-wifi'
+      preLoaderRoute: typeof HonaiFmcConnectWifiIndexImport
+      parentRoute: typeof HonaiImport
+    }
+    '/honai/fmc/line-in-service/': {
+      id: '/honai/fmc/line-in-service/'
+      path: '/fmc/line-in-service'
+      fullPath: '/honai/fmc/line-in-service'
+      preLoaderRoute: typeof HonaiFmcLineInServiceIndexImport
+      parentRoute: typeof HonaiImport
+    }
   }
 }
 
@@ -274,6 +304,8 @@ interface HonaiRouteChildren {
   HonaiRevenueNewSalesIndexRoute: typeof HonaiRevenueNewSalesIndexRoute
   HonaiRevenueRedeemPvIndexRoute: typeof HonaiRevenueRedeemPvIndexRoute
   HonaiTrxNewSalesIndexRoute: typeof HonaiTrxNewSalesIndexRoute
+  HonaiFmcConnectWifiIndexRoute: typeof HonaiFmcConnectWifiIndexRoute
+  HonaiFmcLineInServiceIndexRoute: typeof HonaiFmcLineInServiceIndexRoute
 }
 
 const HonaiRouteChildren: HonaiRouteChildren = {
@@ -287,6 +319,8 @@ const HonaiRouteChildren: HonaiRouteChildren = {
   HonaiRevenueNewSalesIndexRoute: HonaiRevenueNewSalesIndexRoute,
   HonaiRevenueRedeemPvIndexRoute: HonaiRevenueRedeemPvIndexRoute,
   HonaiTrxNewSalesIndexRoute: HonaiTrxNewSalesIndexRoute,
+  HonaiFmcConnectWifiIndexRoute: HonaiFmcConnectWifiIndexRoute,
+  HonaiFmcLineInServiceIndexRoute: HonaiFmcLineInServiceIndexRoute,
 }
 
 const HonaiRouteWithChildren = HonaiRoute._addFileChildren(HonaiRouteChildren)
@@ -308,6 +342,8 @@ export interface FileRoutesByFullPath {
   '/honai/revenue-new-sales': typeof HonaiRevenueNewSalesIndexRoute
   '/honai/revenue-redeem-pv': typeof HonaiRevenueRedeemPvIndexRoute
   '/honai/trx-new-sales': typeof HonaiTrxNewSalesIndexRoute
+  '/honai/fmc/connect-wifi': typeof HonaiFmcConnectWifiIndexRoute
+  '/honai/fmc/line-in-service': typeof HonaiFmcLineInServiceIndexRoute
 }
 
 export interface FileRoutesByTo {
@@ -325,6 +361,8 @@ export interface FileRoutesByTo {
   '/honai/revenue-new-sales': typeof HonaiRevenueNewSalesIndexRoute
   '/honai/revenue-redeem-pv': typeof HonaiRevenueRedeemPvIndexRoute
   '/honai/trx-new-sales': typeof HonaiTrxNewSalesIndexRoute
+  '/honai/fmc/connect-wifi': typeof HonaiFmcConnectWifiIndexRoute
+  '/honai/fmc/line-in-service': typeof HonaiFmcLineInServiceIndexRoute
 }
 
 export interface FileRoutesById {
@@ -345,6 +383,8 @@ export interface FileRoutesById {
   '/honai/revenue-new-sales/': typeof HonaiRevenueNewSalesIndexRoute
   '/honai/revenue-redeem-pv/': typeof HonaiRevenueRedeemPvIndexRoute
   '/honai/trx-new-sales/': typeof HonaiTrxNewSalesIndexRoute
+  '/honai/fmc/connect-wifi/': typeof HonaiFmcConnectWifiIndexRoute
+  '/honai/fmc/line-in-service/': typeof HonaiFmcLineInServiceIndexRoute
 }
 
 export interface FileRouteTypes {
@@ -366,6 +406,8 @@ export interface FileRouteTypes {
     | '/honai/revenue-new-sales'
     | '/honai/revenue-redeem-pv'
     | '/honai/trx-new-sales'
+    | '/honai/fmc/connect-wifi'
+    | '/honai/fmc/line-in-service'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -382,6 +424,8 @@ export interface FileRouteTypes {
     | '/honai/revenue-new-sales'
     | '/honai/revenue-redeem-pv'
     | '/honai/trx-new-sales'
+    | '/honai/fmc/connect-wifi'
+    | '/honai/fmc/line-in-service'
   id:
     | '__root__'
     | '/'
@@ -400,6 +444,8 @@ export interface FileRouteTypes {
     | '/honai/revenue-new-sales/'
     | '/honai/revenue-redeem-pv/'
     | '/honai/trx-new-sales/'
+    | '/honai/fmc/connect-wifi/'
+    | '/honai/fmc/line-in-service/'
   fileRoutesById: FileRoutesById
 }
 
@@ -450,7 +496,9 @@ export const routeTree = rootRoute
         "/honai/revenue-new-sales-prabayar/",
         "/honai/revenue-new-sales/",
         "/honai/revenue-redeem-pv/",
-        "/honai/trx-new-sales/"
+        "/honai/trx-new-sales/",
+        "/honai/fmc/connect-wifi/",
+        "/honai/fmc/line-in-service/"
       ]
     },
     "/login": {
@@ -507,6 +555,14 @@ export const routeTree = rootRoute
     },
     "/honai/trx-new-sales/": {
       "filePath": "honai/trx-new-sales/index.tsx",
+      "parent": "/honai"
+    },
+    "/honai/fmc/connect-wifi/": {
+      "filePath": "honai/fmc/connect-wifi/index.tsx",
+      "parent": "/honai"
+    },
+    "/honai/fmc/line-in-service/": {
+      "filePath": "honai/fmc/line-in-service/index.tsx",
       "parent": "/honai"
     }
   }

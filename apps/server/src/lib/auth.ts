@@ -15,7 +15,8 @@ export const auth = betterAuth({
   }),
   trustedOrigins: [
     process.env.CORS_ORIGIN || "",
-    "http://localhost:8080"
+    "http://localhost:3001",
+    "http://10.113.4.55"
   ],
   emailAndPassword: {
     enabled: true,
@@ -44,7 +45,8 @@ export const auth = betterAuth({
       session_token: {
         name: 'razor_session'
       }
-    }
+    },
+    useSecureCookies: false
   },
   session: {
     expiresIn: 60 * 60 * 24 * 7, // 7 days

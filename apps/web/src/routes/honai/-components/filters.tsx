@@ -30,7 +30,7 @@ export const Filters = ({ daysBehind }: { daysBehind: number }) => {
     const { subbranch: selectedSubbranch, setSelectedSubbranch } = useSelectSubbranch()
     const { cluster: selectedCluster, setSelectedCluster } = useSelectCluster()
     const { setSelectedKabupaten } = useSelectKabupaten()
-    const { data: areas, isLoading: isLoadingAreas } = useQuery(trpc.areas.queryOptions(undefined, { staleTime: 60 * 1000 * 60 * 24, gcTime: 60 * 1000 * 15, retry: 2, refetchOnWindowFocus: false }))
+    const { data: areas, isLoading: isLoadingAreas } = useQuery(trpc.areas.areas.queryOptions(undefined, { staleTime: 60 * 1000 * 60 * 24, gcTime: 60 * 1000 * 15, retry: 2, refetchOnWindowFocus: false }))
 
     const handleRegionChange = (value: string) => {
         setSelectedRegion(value);

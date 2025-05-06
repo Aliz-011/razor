@@ -22,23 +22,40 @@ export const appRouter = router({
       user: ctx.session.user,
     };
   }),
-  areas: publicProcedure.query(async () => {
-    return await db2.query.regionals.findMany({
-      with: {
-        branches: {
-          with: {
-            subbranches: {
-              with: {
-                clusters: {
-                  with: {
-                    kabupatens: true
+  areas: router({
+    areas: publicProcedure.query(async () => {
+      return await db2.query.regionals.findMany({
+        with: {
+          branches: {
+            with: {
+              subbranches: {
+                with: {
+                  clusters: {
+                    with: {
+                      kabupatens: true
+                    }
                   }
                 }
               }
             }
           }
         }
-      }
+      })
+    }),
+    fmcAreas: publicProcedure.query(async () => {
+      return await db2.query.regionals.findMany({
+        with: {
+          branches: {
+            with: {
+              woks: {
+                with: {
+                  stos: true
+                }
+              }
+            }
+          }
+        }
+      })
     })
   }),
   user: usesRouter,

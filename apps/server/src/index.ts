@@ -1,11 +1,9 @@
 import "dotenv/config";
 import { trpcServer } from "@hono/trpc-server";
 import { Hono } from "hono";
+import { handle } from 'hono/vercel'
 import { cors } from "hono/cors";
 import { logger } from "hono/logger";
-import { serveStatic } from "hono/bun";
-import { csrf } from "hono/csrf";
-import path from "path"
 
 import { createContext } from "./lib/context";
 import { appRouter } from "./routers/index";
@@ -22,7 +20,7 @@ app.use(logger());
 app.use(
   "/*",
   cors({
-    origin: [process.env.CORS_ORIGIN || "", "http://localhost:8080"],
+    origin: [process.env.CORS_ORIGIN || "", "http://10.113.4.55"],
     allowMethods: ["GET", "POST", "OPTIONS"],
     allowHeaders: ["Content-Type", "Authorization"],
     credentials: true,
@@ -42,7 +40,7 @@ app.use("*", async (c, next) => {
   c.set("session", session.session);
   return await next();
 });
-app.use(csrf())
+// app.use(csrf())
 
 app.on(["POST", "GET"], "/api/auth/**", (c) => auth.handler(c.req.raw));
 
@@ -53,18 +51,12 @@ app.use("/trpc/*", trpcServer({
   },
 }));
 
-app.use("/*", serveStatic({
-  root: path.resolve(__dirname, '../../apps/web/dist')
-}))
-
-app.get('/*', serveStatic({
-  root: path.resolve(__dirname, '../../apps/web/dist'),
-  path: 'index.html'
-}));
-
 app.get("/", (c) => {
   return c.text("OK");
 });
+
+// export const GET = handle(app)
+// export const POST = handle(app)
 
 export default {
   port: 3000,
